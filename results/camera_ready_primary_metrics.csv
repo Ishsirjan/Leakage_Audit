@@ -1,0 +1,13 @@
+metric,value
+primary_en_demo_auc_mean,0.769925925925926
+primary_en_demo_auc_std,0.07133557418526094
+primary_en_demo_subject_oof_auc,0.7635135135135135
+primary_en_demo_naive_oof_auc,0.7490824157490824
+primary_en_demo_ece,0.1163593430391426
+primary_en_demo_brier,0.2199958588038188
+edges_only_en_auc_mean,0.7702222222222221
+controlled_top20_safe_auc,0.7113439153439153
+controlled_top20_leaked_auc,0.9031534391534393
+controlled_leakage_delta,0.19180952380952399
+n_outer_folds,15.0
+fast_mode,1.0

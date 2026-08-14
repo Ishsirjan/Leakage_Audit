@@ -1,0 +1,14 @@
+metric,value
+cv_repeats,3.0
+controlled_safe_auc,0.7094391534391533
+controlled_leaked_auc,0.9031534391534393
+controlled_delta,0.19371428571428595
+en_demo_auc,0.769925925925926
+en_demo_subj_oof,0.7635135135135135
+en_demo_ece,0.1163593430391426
+en_edges_auc,0.7702222222222221
+top20_raw_auc,0.6862645502645501
+top20_fdresid_auc,0.6467089947089947
+en_edges_fdresid_auc,0.6938835978835979
+locked_en_auc_mean,0.7334710743801652
+locked_top20_auc_mean,0.7119834710743801
