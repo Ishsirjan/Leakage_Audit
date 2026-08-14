@@ -7,7 +7,7 @@ Author: **Ishsirjan Kaur Chandok**
 IGMM, CNRS UMR 5535, Université de Montpellier  
 Email: ishsirjanchandok.iskc@gmail.com
 
-Code: https://github.com/Ishsirjan/SchizoApathy
+Code: https://github.com/Ishsirjan/Leakage_Audit
 
 ---
 
@@ -58,8 +58,8 @@ Or edit `leakage_audit/config.py`. Cached connectomes go to `LEAKAGE_AUDIT_WORKD
 ## Install
 
 ```bash
-git clone https://github.com/Ishsirjan/SchizoApathy.git
-cd SchizoApathy
+git clone https://github.com/Ishsirjan/Leakage_Audit.git
+cd Leakage_Audit
 conda activate quant   # or any Python 3.10+ env
 pip install -r requirements.txt
 pip install -e .
@@ -99,7 +99,7 @@ CSV summaries are in `results/`.
 ## Repository layout
 
 ```
-SchizoApathy/
+SchizoApathy/   # local folder name; GitHub repo is Leakage_Audit
 ├── README.md
 ├── LICENSE
 ├── requirements.txt
@@ -130,7 +130,7 @@ MIT — see `LICENSE`.
 ## Publish / update GitHub
 
 Double-click `push_to_github.bat` (or see `PUSH_TO_GITHUB.md`).  
-Then set the repo to **Public**: https://github.com/Ishsirjan/SchizoApathy
+Then set the repo to **Public**: https://github.com/Ishsirjan/Leakage_Audit
 
 ## Contact
 

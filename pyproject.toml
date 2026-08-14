@@ -22,8 +22,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Ishsirjan/SchizoApathy"
-Repository = "https://github.com/Ishsirjan/SchizoApathy"
+Homepage = "https://github.com/Ishsirjan/Leakage_Audit"
+Repository = "https://github.com/Ishsirjan/Leakage_Audit"
 
 [tool.setuptools.packages.find]
 include = ["leakage_audit*"]
