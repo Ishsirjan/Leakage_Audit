@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leakage-audit"
+version = "1.0.0"
+description = "Leakage Audit Protocol for connectome-based classification (MLMI 2026)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Ishsirjan Kaur Chandok", email = "ishsirjanchandok.iskc@gmail.com" }]
+dependencies = [
+  "numpy>=1.22",
+  "pandas>=2.0",
+  "scipy>=1.8",
+  "scikit-learn>=1.3",
+  "statsmodels>=0.14",
+  "matplotlib>=3.7",
+  "nilearn>=0.10",
+  "nibabel>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Ishsirjan/SchizoApathy"
+Repository = "https://github.com/Ishsirjan/SchizoApathy"
+
+[tool.setuptools.packages.find]
+include = ["leakage_audit*"]

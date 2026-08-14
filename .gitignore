@@ -1,0 +1,26 @@
+# Large / local-only
+4197885/
+ds000030/
+data/
+*.nii
+*.nii.gz
+*.npz
+nilearn_cache/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.env
+.venv/
+venv/
+
+# Local Word/PDF drafts (keep paper source elsewhere if needed)
+*.docx
+*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
