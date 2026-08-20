@@ -17,9 +17,17 @@ build/
 .venv/
 venv/
 
-# Local Word/PDF drafts (keep paper source elsewhere if needed)
+# Local Word/PDF drafts
 *.docx
 *.pdf
+!paper/figures/*.pdf
+
+# Paper build artefacts (not the manuscript source)
+paper/_preview/
+paper/original_pdf_pages/
+paper/submission/
+paper/_build_*.pdf
+paper/_renumber.py
 
 # OS
 .DS_Store

@@ -1,0 +1,2 @@
+name,auc_mean,auc_std,accuracy_mean,accuracy_std,auc_pooled_oof_naive,auc_subject_level_oof,ece,brier,n_folds
+cnp_matched50_full_connectome,0.7273333333333334,0.1040811649093576,0.6433333333333333,0.08919392106839769,0.7047555555555556,0.72,0.21128987059299023,0.26076288661764474,15

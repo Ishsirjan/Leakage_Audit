@@ -1,0 +1,165 @@
+Changes after review — Paper 35
+Leakage-Controlled Resting-State Connectome Classification of Schizophrenia
+MLMI 2026 camera-ready
+
+This file lists modifications relative to the submitted anonymous PDF
+(35_Leakage_Controlled_Resting_.pdf). New numerical results come from
+https://github.com/Ishsirjan/Leakage_Audit (public).
+
+Un-anonymization
+- Author, affiliation, corresponding email, and GitHub URL restored.
+- Disclosure of Interests added (Springer LNCS requirement).
+
+Reviewer 3sGy
+- Calibration is now reported for the primary leakage-free elastic-net
+  model (ECE 0.116, Brier 0.220 under 5x3 nested CV), not for the leaked
+  upper-bound model.
+- The biological interpretation of the leaked logistic coefficients was
+  removed. The coefficient figure is retained (Fig. 7) but is now
+  framed as a description of what the circular pipeline exploits, with
+  mean FD treated as a confound and no anatomical claim attached.
+  Exploratory FDR edges remain labelled as inference, not prediction.
+- Code, protocol, and summary CSVs are public:
+  https://github.com/Ishsirjan/Leakage_Audit
+
+Reviewer beX1
+- Added a controlled leakage experiment that holds selector and
+  classifier fixed: top-20 |t| + L2 logistic, SAFE (train-fold |t|) vs
+  LEAKED (full-cohort |t|). AUC 0.709 vs 0.903, Delta +0.194.
+- The mixed-protocol comparison is now two bars only: leakage-free
+  elastic net 0.768 vs frozen FDR 5-edge logistic 0.855 (Delta +0.087).
+  The unreproducible dataset-level 0.884 +/- 0.049 was dropped. Table 4
+  still reports leaked pooled OOF 0.884 as a different quantity.
+- Dataset-level selection is defined as choosing the edge set using all
+  146 labels before nested CV; the matched experiment above is the
+  fully specified rule (k=20, |t|, same logistic).
+- Permutation p=0.005 for the leaked regime was removed. With n=50,
+  the minimum empirical p is 1/51 ≈ 0.0196; we report p<0.02 for the
+  primary leakage-free protocol only.
+- Repeated OOF scores: naive pooled AUC is labelled as such; a
+  subject-level AUC (average probability per participant, then one AUC)
+  is reported (0.764 vs naive 0.749).
+- Fold-wise SDs are described as descriptive, not as CIs, because
+  overlapping repeats are dependent. Overlapping SDs among leakage-free
+  methods are used to avoid ranking elastic net vs PCA.
+- Motion: edges-only elastic net emphasised (0.765); Welch test on FD;
+  fold-wise FD residualisation (elastic net 0.770 → 0.694); locked
+  70/30 splits (mean AUC 0.733).
+- Performance claim scoped to COBRE, Schaefer-100, Pearson FC, and
+  classical models — not a general schizophrenia ceiling.
+
+New experiments added at camera-ready (Sect. 2.10 / 3.7, Fig. 8)
+- UCLA CNP (OpenNeuro ds000030) is a within-cohort schizophrenia audit under
+  fMRIPrep, not a locked transfer. The original 50/122 split is not used.
+  Controls were 1:1 nearest-neighbour matched to cases on standardised age,
+  sex and mean FD (50/50; mean age 36.5 vs 36.8 y; mean FD 0.255 vs 0.225 mm).
+  Matched twenty-edge contrast: 0.679 vs 0.873 (Delta 0.194, same as COBRE).
+  Full-connectome leakage-free 0.727. Chance accuracy is 0.50; SAFE accuracy
+  0.617. These numbers do not revise the 0.77 COBRE estimate.
+- CNP nulls at n=100, 50/50: independent leaked 0.971; synthetic correlated
+  leaked 0.873; label permutation of the observed matched connectomes leaked
+  0.893. Observed leaked 0.873 does not exceed the permutation floor.
+  Script: scripts/run_cnp_balanced.py.
+- ABIDE is not reported in the camera-ready manuscript.
+- Null control at COBRE dimensions, two feature-dependency assumptions.
+  Labels are random, so the true signal is exactly zero.
+    * Independent Gaussian features: leaked 0.938 +/- 0.017.
+    * Connectomes built from random parcel time series (mean |r| between
+      edge pairs 0.10): leaked 0.821 +/- 0.020.
+    * Leakage-free returns chance (0.490 to 0.522).
+  The leaked COBRE value 0.903 sits about 0.08 above the correlated
+  connectome null (0.821) and 0.03 below the independent-feature ceiling
+  (0.938).
+- Null leaked AUC by k at COBRE dimensions: 0.809 (k=5), 0.937 (k=20),
+  0.998 (k=100).
+- Optimism vs sample size (null, p=4,950): 0.501 at n=50 falling to 0.263
+  at n=600.
+- Scripts: scripts/run_ucla_cnp_connectomes.py, scripts/run_cnp_balanced.py,
+  scripts/run_null_control.py, scripts/run_null_matched.py,
+  scripts/run_null_connectome.py. New CSVs in results/.
+
+Corrections found during a final self-audit against the result CSVs
+- Calibration. The camera-ready previously stated that the leaked model
+  was more miscalibrated than the honest one. The released CSVs show the
+  opposite: the leaked arm of the matched contrast has the lowest ECE
+  (0.064) and Brier score (0.136) of any model reported. Sect. 3.5 now
+  states this and draws the stronger conclusion that calibration
+  diagnostics inherit the leak and cannot detect it. The table row whose
+  ECE (0.172) could not be reproduced from the released CSVs has been
+  removed.
+- "The two aggregation rules differ by roughly 0.015 AUC across every
+  regime" was inconsistent with Table 4, where the range is 0.014 to
+  0.026. Corrected.
+- "Hard thresholding lost roughly seven AUC points" was six (0.768 vs
+  0.705). Corrected.
+- The twenty-edge screen appears as 0.709 in Sect. 3.3 and 0.686 in
+  Sect. 3.4; the text now states that the latter excludes the covariate
+  block. The 0.705 of Table 3 (ten repeats) versus 0.709 (three repeats)
+  is also now reconciled explicitly.
+- Sect. 2.11 claimed the repository reproduces "every number in this
+  paper". The unreproducible dataset-level 0.884 +/- 0.049 was dropped
+  from the abstract, Fig. 4 and the running text.
+- The 0.194 gap is now explicitly the cost of leaking a twenty-edge
+  univariate screen, not of leaking the primary elastic net.
+- Keyword "Computer-aided diagnosis" replaced with "Validation protocol".
+- ABIDE is not mentioned in the camera-ready manuscript.
+- UCLA CNP is a 50/50 age/sex/FD-matched within-cohort audit (0.679 vs
+  0.873, Delta 0.194) and is not used to revise 0.77.
+- Fig. 2 caption states why the left sagittal view has no edges.
+
+Reviewer cY84
+- Same scoping of the ~0.77 estimate.
+- Same subject-level OOF clarification.
+- Edges-only result emphasised as imaging-based discrimination.
+- Calibration moved to the primary nested model.
+- Dataset-level rule specified; controlled k=20 experiment added.
+- Permutation resolution limitation stated (n=50).
+- No claim of pairwise superiority among leakage-free methods.
+
+Figures
+- All figures were redrawn in a single print style (Times, grayscale-safe
+  markers and hatching, vector PDF) directly from results/*.csv by
+  paper/build_figures.py. Nothing is a screenshot of the submitted PDF.
+- Fig. 1 study-design schematic (new).
+- Fig. 2 exploratory connectome of the five covariate-adjusted FDR edges,
+  drawn as a Nilearn glass brain plus chord diagram (new; the submitted
+  PDF described these edges without showing them).
+- Fig. 3 leakage-free method comparison, replacing the original bar chart;
+  the two full-cohort settings are now marked as not leakage-free.
+- Fig. 4 leakage regimes: (a) mixed protocol (0.768 vs 0.855; unreproduced
+  0.884 dropped), (b) matched SAFE vs LEAKED contrast.
+- Fig. 8 UCLA CNP 50/50 with permutation null (new); ABIDE not shown.
+- Fig. 5 motion: (a) fold-wise FD residualisation, (b) locked 70/30 splits
+  (both new).
+- Fig. 6 calibration and prediction aggregation across four regimes (new),
+  replacing the reliability diagram of the leaked model, which two
+  reviewers judged to be the wrong model to calibrate.
+- Fig. 7 leaked-model coefficients, recaptioned to flag circularity.
+
+Tables
+- The leakage-regime table and the leaked-coefficient table were removed
+  because they duplicated Fig. 4 and Fig. 7 exactly; every value in them
+  also appears in the running text. Four tables remain (cohort, FDR
+  edges, leakage-free benchmark, aggregation and calibration).
+
+What was not added (and why)
+- 500+ permutations: not re-run; resolution limit is stated.
+- Motion-matched COBRE subsample: not in the GitHub results. UCLA CNP
+  was 1:1 matched on age, sex and FD.
+- Locked train-on-COBRE, test-on-CNP transfer: not run (COBRE connectome
+  cache is not in the public repo). Within-CNP 50/50 nested CV is reported
+  (0.679 vs 0.873).
+- Nested elastic-net coefficient stability table: not exported in the
+  public CSVs; omitted rather than guessed.
+- 5x10 repeats for the new sensitivity analyses: GitHub used 5x3;
+  this is stated in Methods. Primary Table 3 remains 5x10.
+- Reliability curve for the primary model: per-subject out-of-fold
+  probabilities were not exported, so ECE and Brier are reported instead
+  of a digitised curve.
+
+Deliverables
+- paper/paper.tex + references.bib : LNCS source (compile on Overleaf).
+- paper/Paper-35_camera_ready.html : print-ready HTML (Ctrl+P -> PDF).
+- paper/figures/*.pdf, *.png       : vector and raster figures.
+- paper/build_figures.py           : regenerates every figure from CSVs.
+- paper/build_paper.py             : regenerates the HTML manuscript.

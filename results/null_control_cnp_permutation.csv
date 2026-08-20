@@ -1,0 +1,2 @@
+cell,n,p,k,n_pos,auc_safe_mean,auc_safe_std,auc_leaked_mean,auc_leaked_std,optimism_mean,n_seeds
+"CNP-matched50, label permutation",100,4950,20,50,0.5214,0.06727485909808115,0.8934000000000001,0.024609754163745733,0.372,10

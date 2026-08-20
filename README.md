@@ -4,7 +4,8 @@
 MLMI 2026 (MICCAI Workshop) — Poster (camera-ready)
 
 Author: **Ishsirjan Kaur Chandok**  
-IGMM, CNRS UMR 5535, Université de Montpellier  
+Institut de Génétique Moléculaire de Montpellier, CNRS UMR 5535,  
+1919 Route de Mende, 34293 Montpellier Cedex 5, France  
 Email: ishsirjanchandok.iskc@gmail.com
 
 Code: https://github.com/Ishsirjan/Leakage_Audit
@@ -15,7 +16,9 @@ Code: https://github.com/Ishsirjan/Leakage_Audit
 
 Code and results for a **leakage audit** of schizophrenia vs control classification from resting-state fMRI connectomes (COBRE, Schaefer-100).
 
-**Main claim:** Under nested CV with feature construction confined to training folds, honest AUC is ≈ **0.77**. The same data can look like **0.88–0.90** if edges are selected on the full cohort first. A controlled same-selector contrast (top-20 |t| + logistic) shows optimism **Δ ≈ +0.19 AUC**.
+**Main claim:** Under nested CV with feature construction confined to training folds, honest AUC is ≈ **0.77**. A leaked twenty-edge screen on the same data reports **0.903**. A controlled same-selector contrast (top-20 |t| + logistic) shows optimism **Δ ≈ +0.19 AUC**.
+
+**Protocol check and null control.** UCLA CNP is a second *within-cohort* schizophrenia audit on a 50/50 age/sex/FD-matched subsample (fMRIPrep, not a locked transfer): **0.679 → 0.873** (Δ 0.194, same as COBRE). On synthetic data with no signal, the leakage-free protocol returns chance while a leaked twenty-edge screen reports **0.821** on correlated connectomes and **0.938** on independent features at COBRE dimensions. The observed leaked value of 0.903 sits about 0.08 above the correlated floor. On the matched CNP connectomes, observed leaked 0.873 does not exceed a label-permutation floor of **0.893**.
 
 This is **not** an apathy biomarker paper (COBRE has no AES/PANSS scores). Literature-guided seeds appear only in a secondary/leaked reference pipeline.
 
@@ -44,7 +47,7 @@ Core modules:
 | Dataset | Role | Where to get it |
 |---------|------|-----------------|
 | **COBRE** (primary) | Train / nested CV | [Figshare 4197885](https://figshare.com/articles/dataset/COBRE_preprocessed_with_NIAK_0_17_-_lightweight_release/4197885) |
-| **UCLA CNP** (optional external) | Locked transfer | [OpenNeuro ds000030](https://openneuro.org/datasets/ds000030) |
+| **UCLA CNP** (optional) | Within-cohort audit (not locked transfer) | [OpenNeuro ds000030](https://openneuro.org/datasets/ds000030); keep files on `D:\Leakage_Audit_data` |
 
 ```powershell
 $env:LEAKAGE_AUDIT_COBRE = "C:\Users\YOU\Downloads\4197885"
@@ -70,11 +73,18 @@ pip install -e .
 ## Reproduce paper analyses
 
 ```bash
-python scripts/run_methods_benchmark.py
-python scripts/run_lap_and_residualisation.py
-python scripts/make_figures.py
-python scripts/run_external_ucla_cnp.py   # optional
+python scripts/run_methods_benchmark.py         # needs COBRE
+python scripts/run_lap_and_residualisation.py   # needs COBRE
+python scripts/run_null_control.py              # self-contained, no data needed
+python scripts/run_null_matched.py              # self-contained, no data needed
+python scripts/run_null_connectome.py           # self-contained, correlated-edge null
+python scripts/run_cnp_balanced.py              # 50/50 CNP match; needs D:\Leakage_Audit_data
+python paper/build_figures.py                   # all paper figures from results/*.csv
+python paper/build_paper.py                     # print-ready HTML
 ```
+
+The null-control scripts generate their own synthetic data. UCLA CNP needs
+OpenNeuro `ds000030` on `D:\Leakage_Audit_data`.
 
 ---
 
@@ -91,6 +101,20 @@ python scripts/run_external_ucla_cnp.py   # optional
 | Subject-level OOF (EN+demo, 5×3) | 0.764 |
 | Primary ECE / Brier | 0.116 / 0.220 |
 | Locked 70/30 COBRE split (EN) | ~0.73 |
+
+### Protocol check and null control
+
+| Analysis | AUC |
+|----------|-----|
+| UCLA CNP 50/50 matched, top-20 SAFE | 0.679 ± 0.074 |
+| UCLA CNP 50/50 matched, top-20 LEAKED | 0.873 ± 0.081 |
+| UCLA CNP 50/50, full connectome, leakage-free | 0.727 |
+| **Null data**, COBRE dims — leakage-free | 0.505 ± 0.068 |
+| **Null data**, COBRE dims — leaked, independent edges | **0.938 ± 0.017** |
+| **Null data**, COBRE dims — leaked, correlated edges | **0.821 ± 0.020** |
+| **Null data**, CNP 50/50 — leaked, independent edges | 0.971 |
+| **Null data**, CNP 50/50 — leaked, correlated edges | 0.873 |
+| **Null data**, CNP 50/50 — leaked, label permutation | 0.893 |
 
 CSV summaries are in `results/`.
 
@@ -134,4 +158,4 @@ Then set the repo to **Public**: https://github.com/Ishsirjan/Leakage_Audit
 
 ## Contact
 
-Ishsirjan Kaur Chandok — ishsirjanchandok.iskc@gmail.com
+Ishsirjan Kaur Chandok — Institut de Génétique Moléculaire de Montpellier, CNRS UMR 5535 — ishsirjanchandok.iskc@gmail.com
